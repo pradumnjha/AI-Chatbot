@@ -15,7 +15,7 @@ class KnowledgeBot(ActivityHandler):
         await turn_context.send_activity(summary)
 
     def search_confluence(self, query):
-        url = f"https://pradumnjha.atlassian.net/wiki/rest/api/content/search?cql=text~\"{query}\""
+        url = f"https://YOUR_ORGANIZATIONAL_NAME.atlassian.net/wiki/rest/api/content/search?cql=text~\"{query}\""
         headers = {
             "Authorization": f"Basic {self.config.confluence_token}",
             "Content-Type": "application/json"
@@ -23,7 +23,7 @@ class KnowledgeBot(ActivityHandler):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             results = response.json().get("results", [])
-            return [f"{r['title']}: https://pradumnjha.atlassian.net/wiki{r['_links']['webui']}" for r in results]
+            return [f"{r['title']}: https://YOUR_ORGANIZATIONAL_NAME.atlassian.net/wiki{r['_links']['webui']}" for r in results]
         return ["No relevant Confluence results found."]
 
     def query_openai(self, question, results):
